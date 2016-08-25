@@ -1,13 +1,23 @@
 <!doctype html>
 <html>
-<head>Facebook video SUCKS!</head>
+<head>
+  <title>Facebook video SUCKS!</title>
+  <style type="text/css">
+    #url-input {
+        width: 70%;
+    }
+  </style>
+</head>
 <body>
   <input id="url-input" type="text"><button onclick="fbvideo_sucks()">Make video better</button>
+  <div><a id="url-output" href=""></a></div>
   <script type="text/javascript">
     function fbvideo_sucks() {
       var textbox = document.getElementById('url-input');
       var new_url = 'https://www.facebook.com/v2.3/plugins/video.php?app_id=52049637695&href=' + encodeURIComponent(textbox.value) + '&locale=en_US&sdk=joey';
-      textbox.value = new_url;
+      var link = document.getElementById('url-output')
+      link.innerText = new_url;
+      link.href = new_url;
     };
   </script>
 </body>
