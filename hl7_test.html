@@ -298,7 +298,7 @@ var app = new Vue({
             for (var i = 1; i <= this.allergies.length; i++) {
                 allergies += 'AL1|' + i + '||' + this.allergies[i - 1].name + '||\r';
             }
-            var message = 'MSH|^~\\&|Test|test|RDS|wip1|' + msh_date + '|'+ this.msh_token +'|ADT^' + this.msh_type + '||P|2.5' + '\r' +
+            var message = 'MSH|^~\\&|Test|test|RDS|wip1|' + msh_date + '|'+ this.msh_token +'|ADT^' + this.msh_type + '|5165937|P|2.5' + '\r' +
                           'PID|1||1^^^^FI~1^^^^HC~1^^^^PN~1^^^^SS~' + this.pid_mrn + '^^^^MR||' + this.pid_last_name + '^' + this.pid_first_name + '^' + this.pid_middle_name + '^^' + this.pid_title + '||' + pid_birthdate + '|' + this.pid_gender + '||White|||||' + this.pid_language + '|Married|' + this.pid_religion + '|104020|144-44-4444||||||||||' + exp_date + '|' + this.pid_expired + '\r' +
                           'PV1|1|I|' + this.pv1_area + '^' + this.pv1_room + '^' + this.pv1_bed + '^^^N^338537^2|||||||||||||||1||||||||||||||||||||||||||' + admit_date + '|' + discharge_date + '\r' +
                           allergies;
