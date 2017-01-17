@@ -1,0 +1,310 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>HL7 Test App</title>
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
+<style>
+  .segment {
+     border: 1px solid #bbb;
+     border-radius: 5px;
+     margin-bottom: 20px;
+  }
+
+  .preview {
+     border: 1px solid #aaa;
+     border-radius: 5px;
+     background: #ccc;
+     padding: 10px;
+     color: #666;
+     font-style: italic;
+     margin-bottom: 20px;
+  }
+
+  .preview p {
+     padding: 0px;
+     margin: 0px;
+  }
+
+  li {
+     margin-left:10px;
+  }
+</style>
+</head>
+<body>
+<div id="app" class="container">
+   <h5></h5>
+   <div class="row">
+      <div class="col-sm-12"></div>
+   </div>
+
+   <h5>MSH - Message Header</h5>
+   <div class="segment row">
+      <div class="col-sm-3">
+         <label for="type-select"> Select message type
+            <select id="type-select" class="form-control select col-sm-2" v-model=msh_type>
+               <option v-for="type in message_types" v-bind:value=type.type>{{type.description}}</option>
+            </select>
+         </label>
+      </div>
+      <div class="entry col-sm-2">
+         <label> Message date
+            <input type="date" class="form-control" v-model=msh_date></input>
+         </label>
+      </div>
+
+      <div class="entry col-sm-4">
+         <label> Security token
+            <input type="text" class="form-control" v-model=msh_token></input>
+         </label>
+      </div>
+   </div>
+
+   <h5>PID - Patient Identification</h5>
+   <div class="segment row">
+      <div class="entry col-sm-2">
+         <label> First name
+            <input type="text" class="form-control" v-model=pid_first_name></input>
+         </label>
+      </div>
+      <div class="entry col-sm-2">
+         <label> Last name
+            <input type="text" class="form-control" v-model=pid_last_name></input>
+         </label>
+      </div>
+      <div class="entry col-sm-1">
+         <label> Initial
+            <input type="text" class="form-control" v-model=pid_middle_name></input>
+         </label>
+      </div>
+
+      <div class="entry col-sm-1">
+         <label> Title
+            <input type="text" class="form-control" v-model=pid_title></input>
+         </label>
+      </div>
+
+      <div class="entry col-sm-2">
+         <label> Birthdate
+            <input type="date" class="form-control" v-model=pid_birthdate></input>
+         </label>
+      </div>
+
+      <div class="entry col-sm-1">
+         <label> Gender
+            <select class="form-control col-sm-1" v-model=pid_gender>
+               <option v-for="gender in genders">{{gender}}</option>
+            </select>
+         </label>
+      </div>
+
+      <div class="entry col-sm-2">
+         <label> MRN
+            <input type="text" class="form-control" v-model=pid_mrn></input>
+         </label>
+      </div>
+
+      <div class="entry col-sm-2">
+         <label> Language
+            <input type="text" class="form-control" v-model=pid_language></input>
+         </label>
+      </div>
+
+      <div class="entry col-sm-2">
+         <label> Expiration date
+            <input type="date" class="form-control" v-model=pid_exp_date></input>
+         </label>
+      </div>
+
+      <div class="entry col-sm-1">
+         <label> Expired
+            <select class="form-control col-sm-1" v-model=pid_expired>
+               <option v-for="option in options">{{option}}</option>
+            </select>
+         </label>
+      </div>
+   </div>
+
+   <h5>PV1 - Patient Visit Information</h5>
+   <div class="segment row">
+      <div class="entry col-sm-2">
+         <label> Area
+            <input type="text" class="form-control" v-model=pv1_area></input>
+         </label>
+      </div>
+      <div class="entry col-sm-1">
+         <label> Room
+            <input type="text" class="form-control" v-model=pv1_room></input>
+         </label>
+      </div>
+      <div class="entry col-sm-1">
+         <label> Bed
+            <input type="text" class="form-control" v-model=pv1_bed></input>
+         </label>
+      </div>
+
+      <div class="entry col-sm-2">
+         <label> Admit Date
+            <input type="date" class="form-control" v-model=pv1_admit_date></input>
+         </label>
+      </div>
+
+      <div class="entry col-sm-2">
+         <label> Discharge Date
+            <input type="date" class="form-control" v-model=pv1_discharge_date></input>
+         </label>
+      </div>
+   </div>
+
+   <div class="row">
+      <h5 class="col-sm-2">AL1 - Allergies</h5>
+      <div class="col-sm-8"></div>
+      <button class="btn btn-success col-sm-1" v-on:click="addAllergy">+</button>
+      <button class="btn btn-danger col-sm-1" v-on:click="removeAllergy">-</button>
+   </div>
+   <div class="segment row">
+      <ol class="entry col-sm-4">
+         <li v-for="allergy in allergies">
+         <label> Name
+            <input type="text" class="form-control" v-model=allergy.name></input>
+         </label>
+         </li>
+      </ol>
+   </div>
+
+   <div class="row">
+      <h5 class="col-sm-2">Generated message</h5>
+      <div class="col-sm-9"></div>
+      <!-- <button class="btn btn-info col-sm-1" v-on:click="submitMessage">Send</button> -->
+   </div>
+   <div id="message-preview" class="preview row">
+      <p v-for="s in getMessage().split('\r')">{{s}}</p>
+   </div>
+</div>
+
+<script src='https://unpkg.com/vue/dist/vue.js'></script>
+<script>
+function get_date(datestring){
+  return datestring.replace(/-/g, '');
+}
+var app = new Vue({
+    el: '#app',
+    data: {
+        allergies: [{ name: '' }],
+        genders: [
+            'M',
+            'F'
+        ],
+        options: [
+            'Y',
+            'N'
+        ],
+        msh_type: '',
+        msh_date: '',
+        msh_token: '',
+        pid_first_name: '',
+        pid_last_name: '',
+        pid_middle_name: '',
+        pid_birthdate: '',
+        pid_gender: '',
+        pid_title: '',
+        pid_mrn: '',
+        pid_language: '',
+        pid_religion: '',
+        pid_exp_date: '',
+        pid_expired: '',
+        pv1_area: '',
+        pv1_room: '',
+        pv1_bed: '',
+        pv1_admit_date: '',
+        pv1_discharge_date: '',
+        message_types: [
+            {
+                type: 'A01',
+                description: 'A01 - Admit Resident'
+            },
+            {
+                type: 'A02',
+                description: 'A02 - Change Resident Location'
+            },
+            {
+                type: 'A03',
+                description: 'A03 - Discharge Resident'
+            },
+            {
+                type: 'A08',
+                description: 'A08 - Update Resident'
+            },
+            {
+                type: 'A11',
+                description: 'A11 - Cancel Admission'
+            },
+            {
+                type: 'A12',
+                description: 'A12 - Cancel Location Change'
+            },
+            {
+                type: 'A13',
+                description: 'A13 - Cancel Discharge'
+            },
+            {
+                type: 'A17',
+                description: 'x A17 - Swap Resident Locations'
+            },
+            {
+                type: 'A21',
+                description: 'A21 - Resident Leaves'
+            },
+            {
+                type: 'A22',
+                description: 'A22 - Resident Returns'
+            },
+            {
+                type: 'A29',
+                description: 'x A29 - Delete Resident Information'
+            },
+            {
+                type: 'A47',
+                description: 'x A47 - Update Resident MRN'
+            },
+            {
+                type: 'A52',
+                description: 'A52 - Cancel Resident Leave'
+            },
+            {
+                type: 'A53',
+                description: 'A53 - Cancel Resident Return'
+            }
+        ]
+    },
+    methods: {
+        submitMessage: function () {
+            return;
+        },
+        addAllergy: function () {
+            var allergy = { name: '' };
+            this.allergies.push(allergy);
+        },
+        removeAllergy: function () {
+            this.allergies.pop();
+        },
+        getMessage: function () {
+            var msh_date = get_date(this.msh_date);
+            var pid_birthdate = get_date(this.pid_birthdate);
+            var exp_date = get_date(this.pid_exp_date);
+            var admit_date = get_date(this.pv1_admit_date);
+            var discharge_date = get_date(this.pv1_discharge_date);
+            var allergies = '';
+            for (var i = 1; i <= this.allergies.length; i++) {
+                allergies += 'AL1|' + i + '||' + this.allergies[i - 1].name + '||\r';
+            }
+            var message = 'MSH|^~\\&|Test|test|RDS|wip1|' + msh_date + '||ADT^' + this.msh_type + '|' + this.msh_token + '|P|2.5' + '\r' +
+                          'PID|1||1^^^^FI~1^^^^HC~1^^^^PN~1^^^^SS~' + this.pid_mrn + '^^^^MR||' + this.pid_last_name + '^' + this.pid_first_name + '^' + this.pid_middle_name + '^^' + this.pid_title + '||' + pid_birthdate + '|' + this.pid_gender + '||White|||||' + this.pid_language + '|Married|' + this.pid_religion + '|104020|144-44-4444||||||||||' + exp_date + '|' + this.pid_expired + '\r' +
+                          'PV1|1|I|' + this.pv1_area + '^' + this.pv1_room + '^' + this.pv1_bed + '^^^N^338537^2|||||||||||||||1||||||||||||||||||||||||||' + admit_date + '|' + discharge_date + '\r' +
+                          allergies;
+            return message;
+        }
+    }
+});
+</script>
+</body></html>
