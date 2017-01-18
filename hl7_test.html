@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,7 +35,11 @@
 <div id="app" class="container">
    <h5></h5>
    <div class="row">
-      <div class="col-sm-12"></div>
+      <div class="col-sm-12">
+        <h5><strong>Message info</strong></h5>
+        <p>The resident's mrn must always be provided</p>
+        <p>{{message_info[msh_type]}}</p>
+      </div>
    </div>
 
    <h5>MSH - Message Header</h5>
@@ -217,6 +222,22 @@ var app = new Vue({
         pv1_bed: '',
         pv1_admit_date: '',
         pv1_discharge_date: '',
+        message_info: {
+            'A01': 'Admits a new resident, or updates an existing one. Only non-empty fields will be considered.',
+            'A02': 'Change the room of a resident. You must specify the area, room and optionally bed.',
+            'A03': 'Discharge the resident. This will set the resident\'s room as Unknown and the date as Discharge date',
+            'A08': 'Update patient. Fields that are not empty will be updated.',
+            'A11': 'Deletes a resident. Warning: this operation is not reversible!',
+            'A12': 'Changes the room of a resident. You must provide the location information (previous area and room).',
+            'A13': 'The resident is not discharged anymore. You must provide the location information (area and room).',
+            'A17': 'Not implemented',
+            'A21': 'Sets the resident as off site',
+            'A22': 'Sets the resident as back on site',
+            'A29': 'Not implemented',
+            'A47': 'Not implemented',
+            'A52': 'Sets the resident as back on site',
+            'A53': 'Sets the resident as off site'
+        },
         message_types: [
             {
                 type: 'A01',
@@ -306,5 +327,4 @@ var app = new Vue({
     }
 });
 </script>
-</body>
-</html>
+</body></html>
