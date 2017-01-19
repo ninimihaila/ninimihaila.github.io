@@ -113,6 +113,7 @@
             <input type="text" class="form-control" v-model=pid_language></input>
          </label>
       </div>
+
       <div class="entry col-sm-2">
          <label> Expiration date
             <input type="date" class="form-control" v-model=pid_exp_date></input>
@@ -155,6 +156,18 @@
       <div class="entry col-sm-2">
          <label> Discharge Date
             <input type="date" class="form-control" v-model=pv1_discharge_date></input>
+         </label>
+      </div>
+
+      <div class="entry col-sm-2">
+         <label> Off site start date
+            <input type="date" class="form-control" v-model=evn_event_date></input>
+         </label>
+      </div>
+
+      <div class="entry col-sm-2">
+         <label> Off site end date
+            <input type="date" class="form-control" v-model=pv2_return_date></input>
          </label>
       </div>
    </div>
@@ -221,6 +234,8 @@ var app = new Vue({
         pv1_bed: '',
         pv1_admit_date: '',
         pv1_discharge_date: '',
+        pv2_return_date: '',
+        evn_event_date: '',
         message_info: {
             'A01': 'Admits a new resident, or updates an existing one. Only non-empty fields will be considered.',
             'A02': 'Change the room of a resident. You must specify the area, room and optionally bed.',
@@ -313,13 +328,25 @@ var app = new Vue({
             var exp_date = get_date(this.pid_exp_date);
             var admit_date = get_date(this.pv1_admit_date);
             var discharge_date = get_date(this.pv1_discharge_date);
+            var pv2_return_date = get_date(this.pv2_return_date);
+            var evn_event_date = get_date(this.evn_event_date);
+            var today = get_date(new Date().toISOString().substring(0,10));
+
             var allergies = '';
             for (var i = 1; i <= this.allergies.length; i++) {
-                allergies += 'AL1|' + i + '||' + this.allergies[i - 1].name + '||\r';
+                allergies += 'AL1|' + i + '|FA|' + this.allergies[i - 1].name + '||\r';
             }
+            var pv2 = '';
+            if (this.pv2_return_date) {
+              pv2 = 'PV2|||||||||||||||||||||||||||||||||||||||||||||||' + pv2_return_date + '\r';
+            }
+            var evn = 'EVN|'+ this.msh_type +'|' + today + '|||wip1|'+ evn_event_date + '\r';
+
             var message = 'MSH|^~\\&|Test|test|RDS|wip1|' + msh_date + '|'+ this.msh_token +'|ADT^' + this.msh_type + '|5165937|P|2.5' + '\r' +
+                          evn +
                           'PID|1||1^^^^FI~1^^^^HC~1^^^^PN~1^^^^SS~' + this.pid_mrn + '^^^^MR||' + this.pid_last_name + '^' + this.pid_first_name + '^' + this.pid_middle_name + '^^' + this.pid_title + '||' + pid_birthdate + '|' + this.pid_gender + '||White|||||' + this.pid_language + '|Married|' + this.pid_religion + '|104020|144-44-4444||||||||||' + exp_date + '|' + this.pid_expired + '\r' +
                           'PV1|1|I|' + this.pv1_area + '^' + this.pv1_room + '^' + this.pv1_bed + '^^^N^338537^2|||||||||||||||1||||||||||||||||||||||||||' + admit_date + '|' + discharge_date + '\r' +
+                          pv2 +
                           allergies;
             return message;
         }
