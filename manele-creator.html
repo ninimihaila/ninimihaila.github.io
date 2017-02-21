@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Manele Creator</title>
+<style type="text/css">
+#mnlcrt
+{
+	margin:10px;
+	padding:10px;
+	background-color:#EBE9ED;
+	font-family:Verdana, tahoma, arial, helvetica, sans-serif;
+	font-size:10px;
+	border:#000000 1px;
+	border-collapse:collapse;
+}
+.style2 {
+	font-size: 14px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+.style5 {font-size: 18px}
+.style7 {color: #0000CC}
+#textfield
+{
+	font-family:Verdana, tahoma, arial, helvetica, sans-serif;
+	font-size:10px;
+}
+#select
+{
+font-family:Verdana, tahoma, arial, helvetica, sans-serif;
+	font-size:10px;
+}
+.style9 {color: #999999}
+</style>
+
+</head>
+
+<body>
+	<table width=900 id="mnlcrt">
+    	<tr height="20" bgcolor="#0066CC">
+        	<td width=882></td>
+        	<td width="18" bgcolor="#990000"><center><font class="style2"><a href="#" style="color:#FFFFFF; text-decoration:none" onclick="javascript:self.close()">X</a></font></center></td>
+      </tr>
+        <tr>
+          <td colspan="2">
+			<span class="style5" style="padding-left:10px; text-decoration:underline"><span class="style7">Manele Creator Web Edition</span><br />
+			</span><span style="padding-left:20px">acum poti avea maneaua ta, pe net!</span><br />
+			<p style="padding-left:10px; font-weight:bold">Pasul 1 - Coloana sonora</p>
+            <table cellspacing="0" cellpadding="5" id="mnlcrt">
+            <tr>
+              <td width="189"><font style="text-decoration:underline">Parametrii coloanei sonore </font></td>
+              <td width="55" style="border-right:#000000 1px">&nbsp;</td>
+              <td width="107">Subiectul principal</td>
+              <td width="249" style="border-left:#000000 1px; border-right:#000000 1px">Publicul destinat</td>
+              <td width="112">IQ-ul ascultatorului</td>
+              <td width="98"><div style="padding-left:10px">Dintii canterutului</div></td>
+            </tr>
+            <tr>
+              <td><label>Numarul de greseli garmaticale</label></td>
+              <td width="55" style="border-right:#000000 1px"><input name="textfield" type="text" id="textfield" style="width:35px" onselect="this.bgColor = #F2F700"/>
+              %</td>
+              <td rowspan="5"><form id="form1" name="form1" method="post" action="">
+                <label>
+                  <input type="radio" name="radio" id="radio" value="radio" />
+                  Inima mea</label><br />
+                  <label>
+                  <input type="radio" name="radio" id="radio" value="radio" />
+                  Dusmanii mei</label><br />
+                  <label>
+                  <input type="radio" name="radio" id="radio" value="radio" />
+                  Banii mei</label><br />
+                  <label>
+                  <input type="radio" name="radio" id="radio" value="radio" />
+                  Femeia mea</label><br />
+                  <label>
+                  <input type="radio" name="radio" id="radio" value="radio" />
+                  Lipsit de sens</label>
+
+              </form>              </td>
+              <td rowspan="2" style="border-left:#000000 1px; border-right:#000000 1px">
+              <form id="public" action=""  >
+              <table>
+              <tr>
+              <td>
+              <label>
+              <input type="radio" name="radio" id="radio" value="radio" />
+               &lt; 10 ani</label><br />
+              <input type="radio" name="radio" id="radio" value="radio" />
+
+              10-14 ani</label>              </td>
+              <td>
+              <label>
+              <input type="radio" name="radio" id="radio" value="radio" />
+               14-16 ani</label>
+              <br />
+              <input type="radio" name="radio" id="radio" value="radio" />
+
+              &gt;16 ani</label>
+               <br />(vai de ei)              </td>
+              </tr>
+              </table>
+              </form>              </td>
+              <td rowspan="5"><form id="form3"  action="">
+                <label>
+                <input type="radio" name="radio" id="radio" value="radio" />
+                  Tzaran de oras</label>
+                <br />
+                <label></label>
+                <label>
+                <input type="radio" name="radio" id="radio" value="radio" />
+                0-15</label>
+                <br />
+                <label>
+                <input type="radio" name="radio" id="radio" value="radio" />
+                15-30</label>
+                <br />
+                <label>
+                <input type="radio" name="radio" id="radio" value="radio" />
+                strutz</label>
+                <br />
+                <label>
+                <input type="radio" name="radio" id="radio" value="radio" />
+                30-50</label>
+                <br />
+                <label>
+                <input type="radio" name="radio9" id="radio" value="radio" disabled/>
+                <span class="style9"> Ne pare rau, dar pt IQ&gt;50 incercati alt gen muzical</span></label>
+                <br />
+              </form>              </td>
+              <td rowspan="4"><form id="form4" action="">
+                <label>
+                  <input type="radio" name="radio" id="radio" value="radio" />
+                  Galben deschis</label>
+                <br />
+                <label>
+                <input type="radio" name="radio" id="radio" value="radio" />
+                Galben inchis</label>
+                <br />
+                <label>
+                <input type="radio" name="radio" id="radio" value="radio" />
+                Maro-cacat</label><br />
+                <label>
+                <input type="radio" name="radio" id="radio" value="radio" />
+                Aur</label>
+
+              </form>
+              </td>
+            </tr>
+            <tr>
+              <td height="34"><label>Numarul de interjectii pe minut </label></td>
+              <td width="55" style="border-right:#000000 1px"><input type="text" name="greseli" id="textfield" style="width:35px"/></td>
+              </tr>
+            <tr>
+              <td><label>Nr de &quot;dusmanii mei&quot; pe minut </label></td>
+              <td width="55" style="border-right:#000000 1px"><input type="text" name="textfield2" id="textfield"  style="width:35px"/></td>
+              <td rowspan="3" style="border-left:#000000 1px; border-right:#000000 1px">
+                <label>Fura ritmul din<br />
+                <select name="select" id="select">
+                  <option selected="selected">Acelasi ritm din orice manea </option>
+                  <option>Ritm de tiganeasca</option>
+                  <option>Ritm de tiganeasca badarana</option>
+                </select></label>
+                <br />
+                <br />
+                <label>Vocea folosita<br />
+                <select name="select2" id="select">
+                  <option>De barbat, dar care tot a femeie suna</option>
+                  <option>De femeie</option>
+                  <option>De manelist cu mustata</option>
+                </select>
+                </label>
+                          </td>
+              </tr>
+            <tr>
+              <td>Numarul de versuri distincte</td>
+              <td width="55" style="border-right:#000000 1px"><input type="text" name="textfield3" id="textfield" style="width:35px"/></td>
+              </tr>
+            <tr>
+              <td><label>Durata piesei</label></td>
+              <td width="55" style="border-right:#000000 1px"><input name="textfield4" type="text" id="textfield" style="width:35px" value="0:00"/></td>
+              <td>&nbsp;</td>
+
+              </tr>
+          </table>
+            <p style="padding-left:10px; font-weight:bold">Pasul 2 - Detalii despre jaful de piesa</p>
+          <table width="869" height="67" id=mnlcrt>
+   	  <tr>
+          		<td width="111">
+          		Numele autorului
+          		  <form id="form5" name="form5" method="post" action="">
+          		    <label>
+       		        <input type="radio" id="Adrian" value="radio" />
+          		      Adrian</label><br />
+                      <label>
+          		      <input type="radio" id="Iancu" value="radio" />
+          		      Iancu</label>
+                      <br />
+                    <label>
+          		      <input type="radio" id="Vali" value="radio" />
+          		      Vali                    </label>
+              <br />
+                       <label>
+          		      <input type="radio" id="Gutza" value="radio" />
+          		      Gutza</label>
+                       <br />
+                       <label>
+          		      <input type="radio" id="Nicolae" value="radio" />
+          		      Nicolae                       </label>
+                       <br />
+                    <label>
+      <input type="radio" id="Florinel" value="radio" />
+          		      Florinel</label>
+                       <br />
+                       <label>
+          		      <input type="radio" id="Saprofitu" value="radio" />
+          		      Saprofitu</label>
+                       <br />
+                      <label></label>
+                    <br />
+       		      </form>       		    </td>
+          <td width="113">Prenumele
+          <form id=radio21 action="">
+           <label>
+<input type="radio" id="minune" value="radio" />
+          		      minune</label>
+           <br />
+              <label>
+          		      <input type="radio" id="copilu de aur" value="radio" />
+          		      copilu (cu dintii) de aur              </label><br />
+              <label>
+      <input type="radio" id="furtuna" value="radio" />
+          		      furtuna</label>
+                       <br />
+                       <label>
+          		      <input type="radio" id="De maimutza" value="radio" />
+          		      De maimutza</label>
+                       <br />
+              <label>
+      <input type="radio" id="Salam" value="radio" />
+          		      Salam</label>
+                       <br />
+                       <label>
+          		      <input type="radio" id="Peste" value="radio" />
+          		      Peste                       </label>
+                       <br />
+              <label>
+      <input type="radio" id="Carnat" value="radio" />
+          		      Carnat</label>
+                       <br />
+          </form>          </td>
+          <td width="90">Titlul piesei
+          <form id=titlu action="">
+          	 <label>
+<input type="radio" name="radio" id="radio" value="radio" />
+          		      banii</label>
+          	 <br />
+              <label>
+          		      <input type="radio" name="radio" id="radio" value="radio" />
+          		      femeia              </label>
+                       <br />
+                       <label>
+          		      <input type="radio" name="radio" id="radio" value="radio" />
+          		      mama                       </label><br />
+              <label>
+          		      <input type="radio" name="radio" id="radio" value="radio" />
+          		      dusmanii              </label>
+              <br />
+                       <label>
+          		      <input type="radio" name="radio" id="radio" value="radio" />
+          		      viata</label>
+                       <br />
+                       <label>
+          		      <input type="radio" name="radio" id="radio" value="radio" />
+          		      casa</label>
+                       <br />
+              <label>
+      <input type="radio" name="radio" id="radio" value="radio" />
+          		      mustata</label>
+                       <br />
+          </form>          </td>
+          <td width="129">Posesorul
+          <form id=titlu action="">
+          	 <label>
+<input type="radio" name="radio" id="radio" value="radio" />
+mei          	 </label>
+          	 <br />
+              <label>
+   		      <input type="radio" name="radio" id="radio" value="radio" />
+          		      mea              </label>
+                       <br />
+                       <label>
+          		      <input type="radio" name="radio" id="radio" value="radio" />
+          		      tai                       </label>
+                       <br />
+              <label>
+   		      <input type="radio" name="radio" id="radio" value="radio" />
+          		      prietenilor</label>
+              <br />
+              <label>
+   		      <input type="radio" name="radio" id="radio" value="radio" />
+          		      dusmanilor</label>
+                       <br />
+              <label>
+   		      <input type="radio" name="radio" id="radio" value="radio" />
+          		      lu ma-ta</label>
+                       <br />
+              <label></label>
+              <br />
+            </form>          </td>
+          <td width="402">
+          <form id=album action="">
+          <label>
+          <input type="checkbox" />Vreau sa scot un album, <br />
+          <font color="#999999">creeaza mai multe piese asemanatoare ca sa le pot include pe toate</font>          </label>
+          </form>
+          <form id="form6" name="form6" method="post" action="">
+            <label></label>
+            <div align="right">
+              <select name="select3" size="4" id="select2" style="width:35; margin-right:20px">
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+              </div>
+          </form>
+          <br />          </td>
+          	</tr>
+          </table>
+          <form id="form7" name="form7" method="post" action="" style="padding-right:20px">
+            <div align="right">
+              <input type="button" name="mkManea" id="mkManea" value="Da-i drumul mancatz-as" onclick="javascript:zi()"/>
+              </div>
+          </form>
+          <p>&nbsp;</p>
+          </p></td>
+      </tr>
+</table>
+
+<script type="text/javascript">
+function zi()
+{
+alert('N-ai aruncat destui bani catre ecran pentru a genera maneaua');
+}
+</script>
+</body>
+</html>
