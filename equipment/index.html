@@ -11,8 +11,8 @@
     </style>
   </head>
   <body>
-    <div class="flex flex-col items-center p-10">
-      <div class="p-2">Teachable Machine Pose Model</div>
+    <div class="flex flex-col items-center p-2">
+      <div class="p-2">Safety Equipment Recognition</div>
       <button
         class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded max-w-xs"
         type="button"
@@ -60,6 +60,14 @@
         mask: document.querySelector("#mask-label"),
       }
 
+      const values = {
+        pose: [],
+        head: [],
+        left: [],
+        right: [],
+        mask: [],
+      }
+
       // helpers
       String.prototype.capitalize = function () {
         return this.charAt(0).toUpperCase() + this.slice(1);
@@ -95,11 +103,6 @@
         canvas.width = size;
         canvas.height = size;
         ctx = canvas.getContext("2d");
-        // labelContainer = document.getElementById("label-container");
-        // for (let i = 0; i < maxPredictions; i++) {
-        //   // and class labels
-        //   labelContainer.appendChild(document.createElement("div"));
-        // }
       }
 
       async function loop(timestamp) {
@@ -117,28 +120,58 @@
 
         const [normal, presenting] = prediction;
 
-        writePrediction(labels.pose, normal, presenting)
+        writePrediction("pose", normal, presenting)
 
         drawPose(pose);
 
         await predictEquipment(pose);
       }
 
+      const maxValues = 15;
+
+      function _addValue(element, value) {
+        if (values[element].length > maxValues) {
+          values[element].shift()
+        }
+        values[element].push(value)
+      }
+
+      function __count(array) {
+        const uniqueValues = new Set(array)
+        const count = Array.from(uniqueValues).map(value => [value, array.filter(e => e===value).length]);
+        count.sort(([a, ac],[b, bc]) => ac < bc ? 1 : -1)
+        return count;
+      }
+
+      function _avgProbability(element, prediction) {
+        const onlyPredictions = values[element].filter(e => e !== prediction).map(v => v.probability)
+        return onlyPredictions.reduce((a, b) => a+b) / onlyPredictions.length
+      }
+
+      function _getTopPrediction(element) {
+        const [prediction, count] = __count(values[element].map(v => v.className))?.[0];
+
+        return {
+          className: prediction,
+          probability: _avgProbability(element, prediction)
+        }
+      }
+
       function writePrediction(element, good, bad) {
         let text, confidence;
         if (good.probability > bad.probability && good.probability > 0.97) {
-          text = good.className;
-          confidence = good.probability;
+          _addValue(element, good)
         } else {
-          text = bad.className;
-          confidence = bad.probability;
+          _addValue(element, bad)
         }
 
-        if (!element) {
+        const prediction = _getTopPrediction(element);
+
+        if (!labels[element] || !prediction) {
           return
         }
 
-        element.querySelector('span').innerHTML = `${text} ${parseInt(confidence * 100)}%`;
+        labels[element].querySelector('span').innerHTML = `${prediction.className} ${parseInt(prediction.probability * 100)}%`;
       }
 
       function getPart(pose, side, part) {
@@ -173,12 +206,12 @@
         const head = processHead(pose);
         const mask = processMask(pose);
 
-        await predictItem(labels.head, headModel, head.canvas)
+        await predictItem('head', headModel, head.canvas)
 
-        await predictItem(labels.left, handModel, left.canvas)
-        await predictItem(labels.right, handModel, right.canvas)
+        await predictItem('left', handModel, left.canvas)
+        await predictItem('right', handModel, right.canvas)
 
-        await predictItem(labels.mask, maskModel, webcam.canvas)
+        await predictItem('mask', maskModel, webcam.canvas)
       }
 
       async function predictItem(element, model, image) {
@@ -256,13 +289,6 @@
           return;
         }
 
-        const imgData = ctx.getImageData(
-          position.x - size / 2,
-          position.y - size,
-          size,
-          size
-        );
-
         const hcanvas = document.getElementById(element);
         hcanvas.width = size;
         hcanvas.height = size;
@@ -270,9 +296,20 @@
         hcanvas.style.height = size;
         const hctx = hcanvas.getContext("2d");
 
-        hctx.putImageData(imgData, 0, 0);
+        let imgData;
+        try {
+          imgData = ctx.getImageData(
+            position.x - size / 2,
+            position.y - size,
+            size,
+            size
+          );
 
-        return hctx;
+
+          hctx.putImageData(imgData, 0, 0);
+        } finally {
+          return hctx
+        }
       }
 
       function getHandImage(size, position, side) {
@@ -287,7 +324,6 @@
         return getImage(size, position, "mask-canvas");
       }
 
-        let draw=false;
       function drawPose(pose) {
         if (webcam.canvas) {
 
